@@ -1,0 +1,246 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PayPal Payment Integration</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+            }
+            
+            .container {
+                background: white;
+                padding: 40px;
+                border-radius: 20px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                max-width: 450px;
+                width: 100%;
+                animation: slideIn 0.5s ease-out;
+            }
+            
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .header {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            
+            .header i {
+                font-size: 50px;
+                color: #0070ba;
+                margin-bottom: 15px;
+            }
+            
+            .header h1 {
+                color: #333;
+                font-size: 28px;
+                margin-bottom: 10px;
+            }
+            
+            .header p {
+                color: #666;
+                font-size: 14px;
+            }
+            
+            .form-group {
+                margin-bottom: 25px;
+            }
+            
+            label {
+                display: block;
+                margin-bottom: 8px;
+                color: #333;
+                font-weight: 600;
+                font-size: 14px;
+            }
+            
+            .input-wrapper {
+                position: relative;
+                display: flex;
+                align-items: center;
+            }
+            
+            .input-icon {
+                position: absolute;
+                left: 15px;
+                color: #0070ba;
+                font-size: 18px;
+            }
+            
+            input[type="number"] {
+                width: 100%;
+                padding: 15px 15px 15px 45px;
+                font-size: 18px;
+                border: 2px solid #e0e0e0;
+                border-radius: 10px;
+                transition: all 0.3s ease;
+                font-weight: 500;
+            }
+            
+            input[type="number"]:focus {
+                outline: none;
+                border-color: #0070ba;
+                box-shadow: 0 0 0 3px rgba(0, 112, 186, 0.1);
+            }
+            
+            .btn-pay {
+                width: 100%;
+                padding: 16px;
+                background: linear-gradient(135deg, #0070ba 0%, #005a94 100%);
+                color: white;
+                border: none;
+                border-radius: 10px;
+                font-size: 18px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                margin-top: 10px;
+            }
+            
+            .btn-pay:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(0, 112, 186, 0.3);
+            }
+            
+            .btn-pay:active {
+                transform: translateY(0);
+            }
+            
+            .security-note {
+                margin-top: 20px;
+                padding: 15px;
+                background: #f8f9fa;
+                border-radius: 10px;
+                border-left: 4px solid #0070ba;
+            }
+            
+            .security-note i {
+                color: #0070ba;
+                margin-right: 8px;
+            }
+            
+            .security-note p {
+                color: #666;
+                font-size: 13px;
+                line-height: 1.6;
+            }
+            
+            .features {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+                margin-top: 25px;
+                padding-top: 25px;
+                border-top: 2px solid #f0f0f0;
+            }
+            
+            .feature {
+                text-align: center;
+            }
+            
+            .feature i {
+                font-size: 24px;
+                color: #0070ba;
+                margin-bottom: 8px;
+            }
+            
+            .feature p {
+                font-size: 12px;
+                color: #666;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <i class="fab fa-paypal"></i>
+                <h1>Secure Payment</h1>
+                <p>Enter the amount you wish to pay</p>
+            </div>
+            
+            <form action="/create-payment" method="POST" id="paymentForm">
+                <div class="form-group">
+                    <label for="amount">
+                        <i class="fas fa-dollar-sign"></i> Payment Amount (USD)
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-dollar-sign input-icon"></i>
+                        <input 
+                            type="number" 
+                            id="amount" 
+                            name="amount" 
+                            min="1" 
+                            step="0.01" 
+                            required 
+                            placeholder="0.00"
+                            autofocus>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-pay">
+                    <i class="fab fa-paypal"></i>
+                    Pay with PayPal
+                </button>
+            </form>
+            
+            <div class="security-note">
+                <p>
+                    <i class="fas fa-shield-alt"></i>
+                    <strong>Secure Payment:</strong> Your payment is processed securely through PayPal. We never store your payment information.
+                </p>
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-lock"></i>
+                    <p>Secure</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-bolt"></i>
+                    <p>Fast</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <p>Reliable</p>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            // Format currency input
+            const amountInput = document.getElementById('amount');
+            amountInput.addEventListener('blur', function() {
+                if (this.value) {
+                    this.value = parseFloat(this.value).toFixed(2);
+                }
+            });
+        </script>
+    </body>
+    </html>
